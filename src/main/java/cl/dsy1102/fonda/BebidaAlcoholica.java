@@ -1,10 +1,10 @@
 package cl.dsy1102.fonda;
 
-public class BebidaAlcoholica extends Bebida {
-    protected int limiteUnidades;
-    protected double gradosAlcohol;
-    protected boolean certificada;
-    protected boolean ventaRestringida;
+public class BebidaAlcoholica extends Bebida implements ConsumoResponsable {
+    private int limiteUnidades;
+    private double gradosAlcohol;
+    private boolean certificada;
+    private boolean ventaRestringida;
 
     public BebidaAlcoholica(String nombre, int volumen, int stock, int limiteUnidades, double gradosAlcohol, boolean certificada, boolean ventaRestringida) {
         super(nombre, volumen, stock);
@@ -15,7 +15,7 @@ public class BebidaAlcoholica extends Bebida {
     }
 
     public int getLimiteUnidades() {
-        return limiteUnidades;
+        return this.limiteUnidades;
     }
 
     public void setLimiteUnidades(int limiteUnidades) {
@@ -23,15 +23,19 @@ public class BebidaAlcoholica extends Bebida {
     }
 
     public double getGradosAlcohol() {
-        return gradosAlcohol;
+        return this.gradosAlcohol;
     }
 
-    public void setGradosAlcohol(double gradosAlcohol) {
-        this.gradosAlcohol = gradosAlcohol;
+    public void setGradosAlcohol(double gradosAlcohol) throws IllegalArgumentException {
+        if ((double)0.5F <= gradosAlcohol && gradosAlcohol <= (double)45.0F) {
+            this.gradosAlcohol = gradosAlcohol;
+        } else {
+            throw new IllegalArgumentException("Los grados de alcohol tienen que estar entre 0.5% y 45%.");
+        }
     }
 
     public boolean isCertificada() {
-        return certificada;
+        return this.certificada;
     }
 
     public void setCertificada(boolean certificada) {
@@ -39,15 +43,44 @@ public class BebidaAlcoholica extends Bebida {
     }
 
     public boolean isVentaRestringida() {
-        return ventaRestringida;
+        return this.ventaRestringida;
     }
 
     public void setVentaRestringida(boolean ventaRestringida) {
         this.ventaRestringida = ventaRestringida;
     }
 
-    @Override
-    double calcularPrecio() {
-        return calcularPrecio();
+    public double calcularPrecio() {
+        String cert = "No";
+        double precioBase = (double)3500.0F;
+        if (this.isCertificada()) {
+            cert = "sí";
+            return precioBase;
+        } else {
+            if (!this.isCertificada()) {
+                precioBase += precioBase * 0.2;
+            }
+
+            return precioBase;
+        }
+    }
+
+    public String obtenerDetalle() {
+        String detalle = "";
+        String var10000 = this.getNombre();
+        detalle = "Tipo: Bebida sin alcohol   | Nombre: " + var10000 + " | Volumen: " + this.getVolumen() + " | Stock: " + this.getStock() + "| Grados: " + this.getGradosAlcohol() + "| Certificada: " + this.isCertificada() + "| Venta restrigida:" + this.isVentaRestringida() + "| Precio:" + this.calcularPrecio();
+        return detalle;
+    }
+
+    public boolean tieneVentaRestringida() {
+        return this.ventaRestringida;
+    }
+
+    public void restringirVenta() {
+        this.ventaRestringida = true;
+    }
+
+    public boolean superaLimites() {
+        return this.limiteUnidades > 3;
     }
 }
