@@ -1,8 +1,6 @@
 package cl.dsy1102.fonda;
 
-import java.io.Serializable;
-
-public class BebidaAlcoholica extends Bebida {
+public class BebidaAlcoholica extends Bebida implements ConsumoResponsable {
 
     private int limiteUnidades;
     private double gradosAlcohol;
@@ -50,16 +48,41 @@ public class BebidaAlcoholica extends Bebida {
         this.ventaRestringida = ventaRestringida;
     }
 
+    //comportamiento
     @Override
     public double calcularPrecio() {
-        return 0;
+        double precioBase = 3500;
+        if (isCertificada() == false) {
+            precioBase =precioBase + precioBase *0.2;
+        }
+        return precioBase;
     }
 
     @Override
     public String obtenerDetalle() {
-        return "";
+        String esCertificada = this.isCertificada() ? "Sí" : "No";
+        String esVentaRestringida = this.isVentaRestringida() ? "Sí" : "No";
+        String detalle = "";
+        detalle = "Tipo: Bebida sin alcohol  " + " | Nombre: " + getNombre() + " | Volumen: " + getVolumen() +
+                " | Stock: " + getStock() + "| Grados: "+ getGradosAlcohol() + "| Certificada: " + isCertificada() +
+                "| Venta restrigida:"+ isVentaRestringida() + "| Precio:" + calcularPrecio();
+        return detalle;
     }
 
-    //
+    // comportaiento de interfaces
+    @Override
+    public boolean tieneVentaRestringida() {
+        return this.ventaRestringida;
+    }
 
+    @Override
+    public void restringirVenta() {
+        this.ventaRestringida = true;
+
+    }
+
+    @Override
+    public boolean superaLimites() {
+        return limiteUnidades > 3;
+    }
 }
