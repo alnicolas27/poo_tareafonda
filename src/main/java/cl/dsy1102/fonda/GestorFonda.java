@@ -6,41 +6,56 @@ import java.util.List;
 public class GestorFonda {
     private List<Bebida> bebidas = new ArrayList<>();
 
-
-    public void registrar(Bebida labebida){
-        bebidas.add(labebida);
-        System.out.println(labebida.getNombre() + " registrada correctamente.");
+    // Registrar bebidas
+    public void registrar(Bebida bebidaRegistrar){
+        bebidas.add(bebidaRegistrar);
+        System.out.println(bebidaRegistrar.getNombre() + " registrada correctamente.");
     }
 
-
-    public List<Bebida> getBebidas() {
-        return bebidas;
-    }
-    public void setBebidas(List<Bebida> bebidas) {
-        this.bebidas = bebidas;
-    }
-
-
-    public List<Bebida> buscarPorNombre(String nombreBuscarBebida) {
+    // Buscar bebidas por nombre
+    public List<Bebida> buscarPorNombre(String nombreDeBusqueda) {
+        System.out.println("=== BUSQUEDA POR NOMBRE : " + nombreDeBusqueda + " ===");
         List<Bebida> bebidasEncontradas = new ArrayList<>();
-        for (Bebida bebida : this.getBebidas()) {
-            if (bebida.getNombre().equals(nombreBuscarBebida)) {
-                bebidasEncontradas.add(bebida);
+        for (Bebida bebidaBuscada : bebidas) {
+            if (bebidaBuscada.getNombre().equalsIgnoreCase(nombreDeBusqueda)) {
+                System.out.println(bebidaBuscada.obtenerDetalle());
+                System.out.println ("---");
             }
         }
         return bebidasEncontradas;
-
     }
 
-    public void vender (String nombreBuscarBebida, int unidades){
-        List<Bebida> bebidasParaVender = this.buscarPorNombre(nombreBuscarBebida);
-        for (Bebida bebida : bebidasParaVender) {
-            if (bebida.getStock() >= unidades){
-                if (bebida instanceof ConsumoResponsable){
+    // Vender bebidas
 
+    public void vender(String bebidaRegistrar, int cantidad) {
+        for (Bebida bebidaBuscada : bebidas) {
+            if (bebidaBuscada.getNombre().equalsIgnoreCase(bebidaRegistrar)) {
+                if (bebidaBuscada instanceof ConsumoResponsable) {
+                    ConsumoResponsable control = (ConsumoResponsable) bebidaBuscada;
+                    if (control.tieneVentaRestringida()) {
+                        System.out.println("Venta rechazada: " + bebidaRegistrar + " tiene la venta restringida.");
+                        return;
+                    }
+
+                    if (control.superaLimites(cantidad)) {
+                        int limite;
+                        if (bebidaBuscada instanceof BebidaAlcoholica)
+                            limite = ((BebidaAlcoholica) bebidaBuscada).getLimiteUnidades();
+                        else limite = cantidad;
+
+                        System.out.println("Venta rechazada: " + cantidad +
+                                " unidades de " + bebidaRegistrar + "supera límite permitido.");
+                        return;
+                    }
                 }
+
+                bebidaBuscada.setStock(bebidaBuscada.getStock() - cantidad);
+                double total = bebidaBuscada.calcularPrecio() * cantidad;
+                System.out.println("Venta autorizada: " + cantidad + " x " + bebidaRegistrar + " | Total: " + total);
+                return;
             }
         }
+        System.out.println("Bebida no encontrada: " + bebidaRegistrar);
     }
 
 

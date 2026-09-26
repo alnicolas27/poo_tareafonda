@@ -22,6 +22,12 @@ public class Main {
 
         // TODO 4: solicitar las cuatro ventas indicadas en el enunciado.
 
+        System.out.println("=== VENTAS === ");
+        miguelito.vender("Pisco Sour", 2);
+        miguelito.vender("Pisco Sour", 5);
+        miguelito.vender("Chicha", 1);
+        miguelito.vender("Mote con Huesillo", 6);
+
 
         // TODO 5: buscar por nombre "Chicha" y listar todas las bebidas.
 

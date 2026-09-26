@@ -16,6 +16,9 @@ public abstract class Bebida {
     }
 
     public void setNombre(String nombre) {
+        if (nombre == null || nombre.isEmpty()) {
+            throw new IllegalArgumentException("El nombre no es válido.");
+        }
         this.nombre = nombre;
     }
 
@@ -24,6 +27,9 @@ public abstract class Bebida {
     }
 
     public void setVolumen(int volumen) {
+        if (volumen < 100 || volumen > 3000) {
+            throw new IllegalArgumentException("El volumen tiene que estar entre 100ml y 3000ml.");
+        }
         this.volumen = volumen;
     }
 
@@ -32,15 +38,18 @@ public abstract class Bebida {
     }
 
     public void setStock(int stock) {
+        if (stock < 0) {
+            throw new IllegalArgumentException("Debe ser un valor mayor que cero.");
+        }
         this.stock = stock;
     }
 
-    abstract double calcularPrecio();
-    public String obtenerDetalle() {
-        String detalle = "";
-        detalle += "Nombre: " + this.nombre + "\n";
-        detalle += "Volumen: " + this.volumen + "\n";
-        detalle += "Stock: " + this.stock + "\n";
-        return detalle;
+    //comportamiento
+    public abstract double calcularPrecio();
+
+    public abstract String obtenerDetalle();
+
+    public String toString() {
+        return "Nombre" + getNombre() + "| Volumen " + getVolumen();
     }
 }
