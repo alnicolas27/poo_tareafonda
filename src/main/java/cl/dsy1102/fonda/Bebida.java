@@ -14,38 +14,33 @@ public abstract class Bebida {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
-        if (nombre == null) {
-            throw new IllegalArgumentException("Nombre de bebida no válido.");
-        }
-        else this.nombre = nombre;
+        this.nombre = nombre;
     }
 
     public int getVolumen() {
         return volumen;
     }
+
     public void setVolumen(int volumen) {
-        if (volumen< 100 || volumen > 3000) {
-            throw new IllegalArgumentException("Volumen no válido.");
-        }
-        else this.volumen = volumen;
+        this.volumen = volumen;
     }
 
     public int getStock() {
         return stock;
     }
+
     public void setStock(int stock) {
-        if (stock < 0) {
-            throw new IllegalArgumentException("Cantidad de stock no válida.");
-        } else this.stock = stock;
+        this.stock = stock;
     }
-    //comportamiento
 
-    public abstract double calcularPrecio();
-
-    public abstract String obtenerDetalle();
-
-    public String toString() {
-        return "Nombre: " + getNombre() + "\nVolumen: " + getVolumen();
+    abstract double calcularPrecio();
+    public String obtenerDetalle() {
+        String detalle = "";
+        detalle += "Nombre: " + this.nombre + "\n";
+        detalle += "Volumen: " + this.volumen + "\n";
+        detalle += "Stock: " + this.stock + "\n";
+        return detalle;
     }
 }
