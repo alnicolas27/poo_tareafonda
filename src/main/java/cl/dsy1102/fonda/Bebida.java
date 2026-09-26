@@ -50,6 +50,6 @@ public abstract class Bebida {
     public abstract String obtenerDetalle();
 
     public String toString() {
-        return "Nombre" + getNombre() + "| Volumen " + getVolumen();
+        return "Nombre: " + getNombre() + "| Volumen: " + getVolumen();
     }
 }

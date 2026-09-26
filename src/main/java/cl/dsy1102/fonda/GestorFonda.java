@@ -58,5 +58,12 @@ public class GestorFonda {
         System.out.println("Bebida no encontrada: " + bebidaRegistrar);
     }
 
+    public void listadoBebidas() {
+        for (Bebida bebidaBuscada : bebidas) {
+            System.out.println(bebidaBuscada.toString());
+        }
+
+    }
+
 
 }

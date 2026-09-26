@@ -30,6 +30,9 @@ public class Main {
 
 
         // TODO 5: buscar por nombre "Chicha" y listar todas las bebidas.
+        System.out.println("");
+        System.out.println("=== LISTA PRODUCTOS === ");
+        miguelito.listadoBebidas();
 
     }
 }
